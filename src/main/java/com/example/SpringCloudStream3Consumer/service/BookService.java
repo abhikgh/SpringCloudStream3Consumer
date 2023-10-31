@@ -16,7 +16,10 @@ public class BookService {
 
     public Book updateBook(Book book) {
         book.setBookName(book.getBookName().toUpperCase());
-        book.setBookIsbn(bookRepository.getReferenceById(book.getId()).getBookIsbn());
+        bookRepository.findById(book.getId()).ifPresent(book1 -> {
+            book.setBookIsbn(book1.getBookIsbn());
+            book.setAuthorId(book1.getAuthorId());
+         });
         System.out.println("Book processed successfully...");
         return book;
     }
